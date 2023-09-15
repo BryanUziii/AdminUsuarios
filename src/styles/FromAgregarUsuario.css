@@ -1,0 +1,31 @@
+.containerForm {
+  width: 100%;
+  position: relative;
+  border: 1px solid red;
+  overflow: hidden;
+}
+
+.formAgregar {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  margin: 10px;
+}
+
+.caja {
+  width: 200px;
+  height: 200px;
+
+  color: white;
+}
+
+.formAgregar > div {
+  width: 100%;
+  max-width: 600px;
+  margin: 5px;
+}
+
+.formAgregar > button {
+  max-width: 250px;
+  margin: 5px;
+}

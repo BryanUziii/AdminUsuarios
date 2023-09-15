@@ -1,0 +1,8 @@
+.header {
+  position: static !important;
+}
+
+.header > div {
+  justify-content: center;
+  background-color: #272c34 !important;
+}
