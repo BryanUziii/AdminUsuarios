@@ -3,9 +3,11 @@ import React from "react";
 
 import TablaUsuarios from "../components/TablaUsuarios";
 import { useNavigate } from "react-router-dom";
-import { usuarios } from "../data/usuarios";
+// import { usuarios } from "../data/usuarios";
+import { useSelector } from "react-redux";
 
 const AgregarUsuario = () => {
+  const allUsers = useSelector((state) => state.usuarios);
   const navigate = useNavigate();
 
   const handleAgregarUsuario = () => {
@@ -26,12 +28,12 @@ const AgregarUsuario = () => {
           Agregar Nuevo Usuario
         </Button>
 
-        {usuarios == 0 ? (
+        {allUsers == 0 ? (
           <Typography component="h2" variant="h4">
             No hay datos guardados
           </Typography>
         ) : (
-          <TablaUsuarios usuarios={usuarios} />
+          <TablaUsuarios usuarios={allUsers} />
         )}
       </Container>
     </>

@@ -58,7 +58,7 @@ const TablaUsuarios = ({ usuarios }) => {
           {usuarios.map((user, index) => (
             <StyledTableRow key={index}>
               <StyledTableCell component="th" scope="row">
-                <Link to={`/usuario/${user.userName}`}>
+                <Link to={`/usuario/${user.id}`}>
                   <IconButton aria-label="Edit" title="Editar">
                     <CreateIcon />
                   </IconButton>

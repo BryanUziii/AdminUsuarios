@@ -4,11 +4,17 @@ import React, { useEffect, useState } from "react";
 import "../styles/FromAgregarUsuario.css";
 
 import { useNavigate, useParams } from "react-router-dom";
+
 import { usuarios, getIndexUsuario } from "../data/usuarios";
-import { useDispatch } from "react-redux";
-import { addUsuario } from "../features/usuarios/usuariosSlice";
+
+import { useDispatch, useSelector } from "react-redux";
+import { addUsuario, editUsuario } from "../features/usuarios/usuariosSlice";
+import { useId } from "react";
 
 const FromAgregarUsuario = () => {
+  const allUsers = useSelector((state) => state.usuarios);
+  const newId = useId();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -82,7 +88,7 @@ const FromAgregarUsuario = () => {
     }
 
     // Entra solo si no se esta editando un usuario existente
-    if (!editarUsuario) {
+    if (!params.id) {
       //validar si ya existe el nombre de usuario
       if (usuarios.length !== 0) {
         let existe = false;
@@ -109,29 +115,35 @@ const FromAgregarUsuario = () => {
     };
 
     // si esta editando un usuario entra y remplaza los datos si no, solo lo agrega
-    if (editarUsuario) {
-      if (editarUsuario.indice !== -1) {
-        // Reemplaza el elemento en el índice con los nuevos datos
-        usuarios[editarUsuario.indice] = {
-          ...usuarios[editarUsuario.indice],
-          ...usuarioArray,
-        };
-      }
+    if (params.id) {
+      console.log("entro aki");
+      dispatch(editUsuario(datosUsuario));
+      // if (editarUsuario.indice !== -1) {
+      //   // Reemplaza el elemento en el índice con los nuevos datos
+      //   usuarios[editarUsuario.indice] = {
+      //     ...usuarios[editarUsuario.indice],
+      //     ...usuarioArray,
+      //   };
+      // }
     } else {
-      dispatch(addUsuario(usuarioArray));
-      usuarios.push(usuarioArray);
+      dispatch(addUsuario({ ...usuarioArray, id: newId }));
+      // usuarios.push(usuarioArray);
     }
 
     navigate("/");
   };
 
   useEffect(() => {
-    const indice = getIndexUsuario(params.userName);
-
-    if (indice !== -1) {
-      setEditarUsuario({ indice: indice });
-      setDatosUsuario(usuarios[indice]);
+    if (params.id) {
+      setDatosUsuario(allUsers.find((user) => user.id === params.id));
     }
+
+    // const indice = getIndexUsuario(params.userName);
+
+    // if (indice !== -1) {
+    //   setEditarUsuario({ indice: indice });
+    //   setDatosUsuario(usuarios[indice]);
+    // }
   }, []);
 
   return (
