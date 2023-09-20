@@ -5,8 +5,11 @@ import "../styles/FromAgregarUsuario.css";
 
 import { useNavigate, useParams } from "react-router-dom";
 import { usuarios, getIndexUsuario } from "../data/usuarios";
+import { useDispatch } from "react-redux";
+import { addUsuario } from "../features/usuarios/usuariosSlice";
 
 const FromAgregarUsuario = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const params = useParams();
@@ -115,6 +118,7 @@ const FromAgregarUsuario = () => {
         };
       }
     } else {
+      dispatch(addUsuario(usuarioArray));
       usuarios.push(usuarioArray);
     }
 
