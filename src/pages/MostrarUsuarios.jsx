@@ -1,10 +1,11 @@
-import { Button, Container, Typography } from "@material-ui/core";
-import React from "react";
+import Button from "@material-ui/core/Button";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import TablaUsuarios from "../components/TablaUsuarios";
-import { useNavigate } from "react-router-dom";
-// import { usuarios } from "../data/usuarios";
-import { useSelector } from "react-redux";
 
 const AgregarUsuario = () => {
   const allUsers = useSelector((state) => state.usuarios);

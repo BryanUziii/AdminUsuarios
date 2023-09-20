@@ -1,15 +1,14 @@
-import { Button, TextField } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useId } from "react";
 
-import "../styles/FromAgregarUsuario.css";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
 
 import { useNavigate, useParams } from "react-router-dom";
 
-import { usuarios, getIndexUsuario } from "../data/usuarios";
-
 import { useDispatch, useSelector } from "react-redux";
 import { addUsuario, editUsuario } from "../features/usuarios/usuariosSlice";
-import { useId } from "react";
+
+import "../styles/FromAgregarUsuario.css";
 
 const FromAgregarUsuario = () => {
   const allUsers = useSelector((state) => state.usuarios);
@@ -20,7 +19,6 @@ const FromAgregarUsuario = () => {
 
   const params = useParams();
 
-  const [editarUsuario, setEditarUsuario] = useState(false);
   const [datosUsuario, setDatosUsuario] = useState({
     firstName: "",
     lastName: "",
@@ -87,23 +85,16 @@ const FromAgregarUsuario = () => {
       });
     }
 
-    // Entra solo si no se esta editando un usuario existente
-    if (!params.id) {
-      //validar si ya existe el nombre de usuario
-      if (usuarios.length !== 0) {
-        let existe = false;
+    //validar si ya existe el nombre de usuario
+    const userFound = allUsers.find((user) => user.userName == userName);
 
-        usuarios.forEach((user) => {
-          if (user.userName == userName) {
-            existe = true;
-          }
+    if (userFound) {
+      //si encuentra un usuario con ese id verifica que no sea el del usuario que se esta editando
+      if (params.id !== userFound.id) {
+        console.log("id coincide");
+        return setErrorDatos({
+          userNameExistenteError: true,
         });
-
-        if (existe) {
-          return setErrorDatos({
-            userNameExistenteError: true,
-          });
-        }
       }
     }
 
@@ -116,18 +107,17 @@ const FromAgregarUsuario = () => {
 
     // si esta editando un usuario entra y remplaza los datos si no, solo lo agrega
     if (params.id) {
-      console.log("entro aki");
       dispatch(editUsuario(datosUsuario));
-      // if (editarUsuario.indice !== -1) {
-      //   // Reemplaza el elemento en el índice con los nuevos datos
-      //   usuarios[editarUsuario.indice] = {
-      //     ...usuarios[editarUsuario.indice],
-      //     ...usuarioArray,
-      //   };
-      // }
     } else {
-      dispatch(addUsuario({ ...usuarioArray, id: newId }));
-      // usuarios.push(usuarioArray);
+      dispatch(
+        addUsuario({
+          id: newId,
+          firstName: firstName,
+          lastName: lastName,
+          userName: userName,
+          password: password,
+        })
+      );
     }
 
     navigate("/");
@@ -137,13 +127,6 @@ const FromAgregarUsuario = () => {
     if (params.id) {
       setDatosUsuario(allUsers.find((user) => user.id === params.id));
     }
-
-    // const indice = getIndexUsuario(params.userName);
-
-    // if (indice !== -1) {
-    //   setEditarUsuario({ indice: indice });
-    //   setDatosUsuario(usuarios[indice]);
-    // }
   }, []);
 
   return (

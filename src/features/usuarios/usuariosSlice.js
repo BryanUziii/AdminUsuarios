@@ -1,14 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = [
-  {
-    id: "1",
-    firstName: "Bryan",
-    lastName: "Gonzalez",
-    userName: "Bruziii",
-    password: "123456",
-  },
-];
+const initialState = [];
 
 export const usuariosSlice = createSlice({
   name: "usuarios",
@@ -18,7 +10,6 @@ export const usuariosSlice = createSlice({
       state.push(action.payload);
     },
     editUsuario: (state, action) => {
-      // console.log(action.payload);
       const { id, firstName, lastName, userName, password } = action.payload;
 
       const userFound = state.find((user) => user.id === id);
@@ -31,7 +22,6 @@ export const usuariosSlice = createSlice({
       }
     },
     deleteUsuario: (state, action) => {
-      //   console.log(action.payload);
       const userFound = state.find((user) => user.userName === action.payload);
 
       if (userFound) {
